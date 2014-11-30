@@ -1,0 +1,28 @@
+{
+  "name": "easy-init",
+  "version": "0.1.0",
+  "description": "auto config less and gulp-less for your project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wahaha2012/easy-init.git"
+  },
+  "keywords": [
+    "easy",
+    "init",
+    "config"
+  ],
+  "author": "wxwdesign",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wahaha2012/easy-init/issues"
+  },
+  "homepage": "https://github.com/wahaha2012/easy-init",
+  "dependencies": {
+    "cli-color": "^0.3.2",
+    "shelljs": "^0.3.0"
+  }
+}
