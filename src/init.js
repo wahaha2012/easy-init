@@ -114,7 +114,11 @@ var app = {
 
     //finished init
     initFinished: function(callback){
-        console.log(info(currentStep++ +'. project init finished!'))
+        console.log(info(currentStep++ +'. project init finished!'));
+
+        console.log('***************************');
+        console.log('*   Enjoy your project!   *');
+        console.log('***************************');
         callback();
     }
 };
