@@ -12,7 +12,7 @@ $ npm install easy-init -g
 # initialize your project #
 
 ```bash
-$cd your-project-folder
+$ cd your-project-folder
 
 $ easy-init
 ```
