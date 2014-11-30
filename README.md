@@ -1,7 +1,7 @@
 easy-init
 =========
 
-make f2e project use less and gulp initialize easily
+auto config less and gulp-less for your project, make it easy to start.
 
 # install #
 
