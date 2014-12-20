@@ -1,6 +1,6 @@
 {
   "name": "easy-init",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "auto config less and gulp-less for your project",
   "main": "index.js",
   "scripts": {

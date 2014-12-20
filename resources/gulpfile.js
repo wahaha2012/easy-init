@@ -7,10 +7,15 @@ gulp.task("less", function(){
             .pipe(gulp.dest("css/"));
 });
 
+gulp.task("copyimages", function(){
+    return gulp.src(["less/img/**/*.*"], {base: "./less"})
+            .pipe(gulp.dest("css/"));
+});
+
 gulp.task("watch", function(){
-    gulp.watch(["less/*.less"], function(){
-        gulp.run("less");
-    });
+    gulp.watch(["less/*.less"], ["less"]);
+    
+    // gulp.watch(["less/img/**/*.*"], ["copyimages"]);
 });
 
 gulp.task("default", ["less"]);
