@@ -40,6 +40,10 @@ var app = {
         try {
             shelljs.mkdir('-p', ['less', 'js', 'css', 'html']);
 
+            if(app.options.config == 'full'){
+                shelljs.mkdir('-p', ['api-php']);
+            }
+
             console.log(notice('create project directories successfully'));
             callback();
         } catch (err) {
@@ -58,6 +62,21 @@ var app = {
                 async: false
             });
 
+            if(app.options.config == 'full'){
+                shelljs.exec('npm install gulp-htmlincluder --save-dev', {
+                    async: false
+                });
+                shelljs.exec('npm install gulp-hash-creator --save-dev', {
+                    async: false
+                });
+                shelljs.exec('npm install gulp-cssmin --save-dev', {
+                    async: false
+                });
+                shelljs.exec('npm install gulp-uglify --save-dev', {
+                    async: false
+                });
+            }
+
             console.log(notice('project npm dependencies installed successfully'));
             callback();
         } catch (err) {
@@ -69,12 +88,31 @@ var app = {
     addProjectDefaultFiles: function(callback){
         console.log(info(currentStep++ +'. add project default files'));
         try {
-            shelljs.cp('-rf', __dirname + '/../resources/*', './');
+            //simple init copy
+            shelljs.cp('-rf', __dirname + '/../resources/html/index.html', './html/');
+            shelljs.cp('-rf', __dirname + '/../resources/less/style.less', './less/');
+            shelljs.cp('-rf', __dirname + '/../resources/less/comm/functions.less', './less/comm/');
+            shelljs.cp('-rf', __dirname + '/../resources/less/comm/cssreset.less', './less/comm/');
+            shelljs.cp(__dirname + '/../resources/gulpfile-simple.js', './gulpfile.js');
 
+            if(app.options.config=='full'){
+                shelljs.cp('-rf', __dirname + '/../resources/*', './');
+            }
             console.log(notice('default files added'));
             callback();
         } catch (err) {
             callback(new Error('failed to add default files:\n' + err.message));
+        }
+    },
+
+    //update folder for full
+    updateDefaultFiles: function(callback){
+        try{
+            shelljs.rm('./gulpfile-simple.js');
+            shelljs.mv('-f', './html/index-include.html','./html/index.html');
+            callback();
+        }catch(err){
+            callback(new Error('failed to update default files:\n' + err.message));
         }
     },
 
@@ -98,8 +136,11 @@ var app = {
                     encoding: 'utf8'
                 });
 
-                var addContent = '# node files\nnode_modules/\nnpm-debug.log\n';
+                var addContent = '# node files\nnode_modules/\nnpm-debug.log\nlogs/';
 
+                if(app.options.config=='full'){
+                    addContent += '\n#build files\ndist/\n'
+                }
                 fileContent = fileContent + addContent;
 
                 fs.writeFileSync(file, fileContent);
@@ -123,30 +164,37 @@ var app = {
     }
 };
 
-module.exports = function() {
-    async
-        .waterfall([
-            //npm init
-            app.initNpm,
+module.exports = {
+    init: function(options){
+        app.options = options || {};
 
-            //init project npm dependencies
-            app.addNpmDependencies,
+        async
+            .waterfall([
+                //npm init
+                app.initNpm,
 
-            //update .gitignore file
-            app.updateGitignore,
+                //init project npm dependencies
+                app.addNpmDependencies,
 
-            //create directories
-            app.createDirs,
+                //update .gitignore file
+                app.updateGitignore,
 
-            //add default files to project
-            app.addProjectDefaultFiles,
+                //create directories
+                app.createDirs,
 
-            //init finished
-            app.initFinished
-        ], function(err, rs) {
-            if (err) {
-                console.log(error(err.message));
-                return;
-            }
-        });
-}
+                //add default files to project
+                app.addProjectDefaultFiles,
+
+                //update default files
+                app.updateDefaultFiles,
+
+                //init finished
+                app.initFinished
+            ], function(err, rs) {
+                if (err) {
+                    console.log(error(err.message));
+                    return;
+                }
+            });
+    }
+};

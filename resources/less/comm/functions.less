@@ -19,6 +19,11 @@
     -moz-box-shadow: @hoff @voff @blur @color;
     box-shadow: @hoff @voff @blur @color;
 }
+.txtsh(@hoff, @voff, @blur, @color){
+    -webkit-text-shadow: @hoff @voff @blur @color;
+    -moz-text-shadow: @hoff @voff @blur @color;
+    text-shadow: @hoff @voff @blur @color;
+}
 
 .bgPNG(@normal, @iepng){
     background-image: url(@normal);
@@ -42,4 +47,22 @@
     .displayInlineBlock();
 
     .bdradius(@bdr);
+}
+
+/*-----[max/min] width,height-----*/
+.maxWidth(@maxwidth){
+    max-width: @maxwidth;
+    _width: @maxwidth;
+}
+.minWidth(@minwidth){
+    min-width: @minwidth;
+    _width: @minwidth;
+}
+.maxHeight(@maxheight){
+    max-height: @maxheight;
+    _height: @maxheight;
+}
+.minHeight(@minheight){
+    min-height: @minheight;
+    _height: @minheight;
 }

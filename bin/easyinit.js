@@ -3,7 +3,8 @@
 //load modules required
 var clc = require('cli-color'),
     shelljs = require('shelljs'),
-    initProject = require('../src/init');
+    app = require('../src/init'),
+    commander = require('commander');
 
 //package json config
 var pkgJson = require('../package.json');
@@ -23,32 +24,11 @@ if (!shelljs.which('gulp')) {
     process.exit();
 }
 
-var mod = {
-    help: function() {
-        console.log('Usage: easy-init [options]\n');
-        console.log('Options:\n');
-        console.log('  -h, --help', 'help doc');
-        console.log('  -v, --version', 'easy-init version');
-    },
-    version: function() {
-        console.log(pkgJson.version);
-    }
-};
+commander
+    .version(pkgJson.version)
+    .option('-c, --config [config]', 'configuration for project initialize')
+    .parse(process.argv);
 
-//use input arguments
-var args = process.argv;
-var firstArg = args[2];
-switch (firstArg) {
-    case '-h':
-    case '--help':
-    case 'help':
-        mod.help();
-        break;
-    case '-v':
-    case '--version':
-        mod.version();
-        break;
-    default:
-        initProject();
-        break;
-}
+app.init({
+    config: commander.config
+});
