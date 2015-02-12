@@ -26,7 +26,7 @@ if (!shelljs.which('gulp')) {
 
 commander
     .version(pkgJson.version)
-    .option('-c, --config [config]', 'configuration for project initialize')
+    .option('-c, --config [config]', 'configuration for project initialize, if set config "full" then will init the full version')
     .parse(process.argv);
 
 app.init({
