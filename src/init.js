@@ -108,8 +108,10 @@ var app = {
     //update folder for full
     updateDefaultFiles: function(callback){
         try{
-            shelljs.rm('./gulpfile-simple.js');
-            shelljs.mv('-f', './html/index-include.html','./html/index.html');
+            if(app.options.config == 'full'){
+                shelljs.rm('./gulpfile-simple.js');
+                shelljs.mv('-f', './html/index-include.html','./html/index.html');
+            }
             callback();
         }catch(err){
             callback(new Error('failed to update default files:\n' + err.message));
