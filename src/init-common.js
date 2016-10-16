@@ -7,6 +7,19 @@ var clc = require('./colors'),
   spawn = require('child_process').spawn;
 var currentStep = 1;
 var app = {
+  //git init
+  initGit: function(callback) {
+    console.log(clc.info(currentStep++ + '. init git'));
+    try {
+      shelljs.exec('git init', {
+        async: false
+      });
+      console.log(clc.notice('git init successfully'));
+      callback();
+    } catch (err) {
+      callback(new Error('failed to init git'));
+    }
+  },
   //npm init
   initNpm: function(callback) {
     console.log(clc.info(currentStep++ + '. start npm init'));
@@ -149,10 +162,8 @@ var app = {
         var fileContent = fs.readFileSync(file, {
           encoding: 'utf8'
         });
-        var addContent = '# node files\nnode_modules/\nnpm-debug.log\nlogs/';
-        if (app.options.config == 'full') {
-          addContent += '\n#build files\ndist/\n'
-        }
+        var addContent = '# node files\nnode_modules/\nnpm-debug.log\nlogs/\n#build files\ndist/\n';
+        
         fileContent = fileContent + addContent;
         fs.writeFileSync(file, fileContent);
         console.log(clc.notice('.gitignore file update successfully'));
@@ -168,8 +179,10 @@ module.exports = {
   init: function(options) {
     app.options = options || {};
 
-    console.log(options);
+    // console.log(options);
     var normalWaterFall = [
+      app.initGit, //git init
+
       app.initNpm, //npm init
 
       app.addNormalNpmDependencies, //init project npm dependencies
@@ -186,11 +199,15 @@ module.exports = {
     ];
 
     var commonWaterFall = [
+      app.initGit, //git init
+      
       app.addProjectDefaultFiles, //add default files to project
       
-      app.initNpm, //npm init
+      // app.initNpm, //npm init
       
       // app.addNpmDependencies, //init project npm dependencies
+      
+      app.updateGitignore, //update .gitignore file
       
       app.initFinished //init finished
     ];
