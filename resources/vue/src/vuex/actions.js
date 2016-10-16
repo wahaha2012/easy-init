@@ -52,4 +52,3 @@ export const fetchIndex = ({ dispatch }) => {
 export const setTitle = ({ dispatch }, title) => {
   return dispatch('UPDATE_TITLE', title);
 }
-}
