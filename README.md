@@ -1,7 +1,7 @@
 easy-init
 =========
 
-auto create initialize config for vue/react/normal, make it easy to start your project.
+create vue/react/normal initialize config, make it easy to start your project.
 
 # install #
 
