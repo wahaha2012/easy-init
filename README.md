@@ -1,7 +1,7 @@
 easy-init
 =========
 
-auto config less and gulp-less for your project, make it easy to start.
+auto create initialize config for vue/react/normal, make it easy to start your project.
 
 # install #
 
@@ -12,7 +12,10 @@ $ npm install easy-init -g
 # initialize your project #
 
 ```bash
-$ cd your-project-folder
+# create new project and directory
+$ easy-init your-project-directory-name
 
+# create new project in existing directory
+$ cd your-project-directory
 $ easy-init
 ```
