@@ -40,6 +40,7 @@ var app = {
     console.log(clc.info(currentStep++ + '. add project default files'));
     try {
       var resourcesPath = '/../resources/' + app.options.path + '/';
+      shelljs.cp('-rf', __dirname + resourcesPath + '\.*', './');
       shelljs.cp('-rf', __dirname + resourcesPath + '*', './');
       console.log(clc.notice('default files added'));
       callback();
@@ -200,14 +201,14 @@ module.exports = {
 
     var commonWaterFall = [
       app.initGit, //git init
+
+      app.updateGitignore, //update .gitignore file
       
       app.addProjectDefaultFiles, //add default files to project
       
       // app.initNpm, //npm init
       
       // app.addNpmDependencies, //init project npm dependencies
-      
-      app.updateGitignore, //update .gitignore file
       
       app.initFinished //init finished
     ];

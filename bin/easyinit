@@ -57,7 +57,7 @@ function start() {
     type: 'list',
     name: 'architecture',
     message: 'Please select libs with your project:',
-    choices: ['normal', 'react', 'vue']
+    choices: ['normal', 'react', 'vue', 'vue2']
   }]).then(function(answers) {
     // console.log(answers);
     
