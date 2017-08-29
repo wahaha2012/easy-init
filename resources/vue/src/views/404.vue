@@ -1,19 +1,13 @@
 <template>
-  <div class="">
-  404 Page Not Found!
-  </div>
+  <div>404 Page Not Found!</div>
 </template>
 <script>
   export default {
-    data(){
+    data() {
       return {
-      }
+      };
     },
-    ready() {
-    },
-    methods: {
-    }
-  }
+  };
 </script>
 <style>
 </style>
