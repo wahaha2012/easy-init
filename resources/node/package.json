@@ -5,7 +5,8 @@
     "eslint:fix": "eslint --fix"
   },
   "dependencies": {
-    "debug": "latest"
+    "debug": "latest",
+    "nodemon": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
