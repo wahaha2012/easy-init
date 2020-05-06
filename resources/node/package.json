@@ -1,12 +1,11 @@
 {
   "scripts": {
-    "dev": "DEBUG=* nodemon ./src/app.js",
+    "dev": "node ./src/app.js",
     "eslint": "eslint",
     "eslint:fix": "eslint --fix"
   },
   "dependencies": {
-    "debug": "latest",
-    "nodemon": "^2.0.3"
+    "debug": "latest"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
