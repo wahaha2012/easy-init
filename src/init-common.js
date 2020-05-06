@@ -4,6 +4,7 @@ var clc = require('./colors'),
   async = require('async'),
   path = require('path'),
   fs = require('fs'),
+  // merge = require('lodash/merge');
   spawn = require('child_process').spawn;
 var currentStep = 1;
 var app = {
@@ -35,6 +36,22 @@ var app = {
       callback();
     });
   },
+  // // merge package.json
+  // mergePackages: function(callback) {
+  //   try {
+  //     var resourcesPath = '/../resources/' + app.options.path + '/';
+  //     var resPkg = fs.readFileSync(__dirname + resourcesPath + 'package.json', 'utf-8');
+  //     var proPkg = fs.readFileSync('./package.json', 'utf-8');
+  //     var destPkg = merge(JSON.parse(proPkg), JSON.parse(resPkg));
+
+  //     fs.writeFileSync('./package.json', JSON.stringify(destPkg, null, 2));
+  //     console.log(clc.info(currentStep++ + '. package.json update successfully'));
+  //     callback();
+  //   } catch(err) {
+  //     callback(new Error('failed to update package.json file: \n' + err.message));
+  //   }
+  // },
+
   //add default files to project
   addProjectDefaultFiles: function(callback) {
     console.log(clc.info(currentStep++ + '. add project default files'));
@@ -213,7 +230,28 @@ module.exports = {
       app.initFinished //init finished
     ];
 
-    async.waterfall(options.path === 'normal' ? normalWaterFall : commonWaterFall, function(err, rs) {
+    var nodeWaterFall = [
+      app.initGit, //git init
+
+      app.updateGitignore, //update .gitignore file
+      
+      app.addProjectDefaultFiles, //add default files to project
+      
+      app.initNpm, //npm init
+      
+      // app.addNpmDependencies, //init project npm dependencies
+      
+      app.initFinished //init finished
+    ];
+
+    var processList = commonWaterFall;
+    if (options.path === 'normal') {
+      processList = normalWaterFall;
+    } else if (options.path === 'node') {
+      processList = nodeWaterFall;
+    }
+
+    async.waterfall(processList, function(err, rs) {
       if (err) {
         console.log(clc.error(err.message));
         return;
