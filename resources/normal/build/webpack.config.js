@@ -15,7 +15,11 @@ module.exports = {
     clean: true,
     publicPath: "/",
   },
-
+  resolve: {
+    alias: {
+      "@": resolve("src"),
+    },
+  },
   optimization: {
     moduleIds: "deterministic",
     runtimeChunk: "single",
