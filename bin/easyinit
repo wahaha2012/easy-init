@@ -59,18 +59,10 @@ function start() {
     message: 'Please select libs with your project:',
     choices: ['node', 'normal', 'react', 'vue']
   }]).then(function(answers) {
-    // console.log(answers);
-    
-    if(answers.architecture === 'normal') {
-      if (!shelljs.which('gulp')) {
-        console.log(clc.error('Please install gulp first. try') + clc.notice(' npm install -g gulp'));
-        process.exit();
-      }
-    }
-
     require('../src/init-common').init({
       folder: projectFolder,
-      path: answers.architecture
+      path: answers.architecture,
+      projectName: projectName
     });
   });
 }
