@@ -1,19 +1,20 @@
 easy-init
 =========
 
-create vue/react/normal initialize config, make it easy to start your project.
+create node/vanilla js project with eslint and webpack default config.
 
 # install #
 
 ```bash
 $ npm install easy-init -g
+$ yarn global add easy-init
 ```
 
 # initialize your project #
 
 ```bash
 # create new project and directory
-$ easy-init your-project-directory-name
+$ easy-init `your-project-directory-name`
 
 # create new project in existing directory
 $ cd your-project-directory
