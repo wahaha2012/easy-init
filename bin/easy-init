@@ -56,8 +56,8 @@ function start() {
   inquirer.prompt([{
     type: 'list',
     name: 'architecture',
-    message: 'Please select libs with your project:',
-    choices: ['node', 'normal', 'react', 'vue']
+    message: 'Please select template for your project:',
+    choices: ['webpack', 'nodejs', 'react', 'vue']
   }]).then(function(answers) {
     require('../src/init-common').init({
       folder: projectFolder,

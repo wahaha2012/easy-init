@@ -1,7 +1,7 @@
 easy-init
 =========
 
-create node/vanilla js project with eslint and webpack default config.
+create nodejs/vanilla js/react/vue project with eslint and webpack default configured.
 
 # install #
 
@@ -20,3 +20,6 @@ $ easy-init `your-project-directory-name`
 $ cd your-project-directory
 $ easy-init
 ```
+
+# Snapshot # 
+![snapshot](./assets/images/snapshot.png)

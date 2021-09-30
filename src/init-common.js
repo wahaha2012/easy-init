@@ -7,6 +7,7 @@ var clc = require('./colors'),
   // merge = require('lodash/merge');
   spawn = require('child_process').spawn;
 var currentStep = 1;
+
 var app = {
   //git init
   initGit: function(callback) {
@@ -21,6 +22,7 @@ var app = {
       callback(new Error('failed to init git'));
     }
   },
+
   //npm init
   initNpm: function(callback) {
     console.log(clc.info(currentStep++ + '. start npm init'));
@@ -36,6 +38,7 @@ var app = {
       callback();
     });
   },
+
   // // merge package.json
   // mergePackages: function(callback) {
   //   try {
@@ -65,8 +68,9 @@ var app = {
       callback(new Error('failed to add default files:\n' + err.message));
     }
   },
-  //add project npm dependencies
-  addNpmDependencies: function(callback) {
+
+  //install dependencies
+  installDependencies: function(callback) {
     console.log(clc.info(currentStep++ + '. add and install npm dependencies'));
     try {
       shelljs.exec('npm install', {
@@ -78,7 +82,8 @@ var app = {
       callback(new Error('failed to install project npm dependencies'));
     }
   },
-  //finished init
+
+  // finished init
   initFinished: function(callback) {
     console.log(clc.info(currentStep++ + '. project init finished!'));
     console.log('------------------------------');
@@ -93,7 +98,8 @@ var app = {
   updateGitignore: function(callback) {
     console.log(clc.info(currentStep++ + '. update .gitignore file'));
     try {
-      var file = path.resolve(shelljs.pwd(), '.gitignore');
+      console.log('pwd', shelljs.pwd().toString());
+      var file = path.resolve(shelljs.pwd().toString(), '.gitignore');
       //check .gitignore file
       fs.exists(file, function(exist) {
         if (!exist) {
@@ -117,27 +123,41 @@ var app = {
       callback(new Error('failed to update .gitignore file: \n' + err.message));
     }
   },
+
+  // create react app
+  createReactApp: function(callback) {
+    try {
+      shelljs.cd('../');
+      shelljs.exec('npx create-react-app ' + app.options.projectName, {
+        async: false
+      });
+      callback();
+    } catch (err) {
+      callback(new Error('create react app failed`: \n' + err.message));
+    }
+  },
+
+  // create vue app
+  createVueApp: function(callback) {
+    try {
+      if(!shelljs.which('vue')) {
+        console.log(clc.error('Please install vue-cli firstly, and then run `npm install -g @vue/cli` or `yarn global add @vue/cli`'));
+        process.exit();
+      } else {
+        console.log(clc.warn('Please run `vue create ' + app.options.projectName + '` in command line'));
+      }
+      callback();
+    } catch (err) {
+      callback(new Error('create vue app failed: \n' + err.message));
+    }
+  }
 };
 
 module.exports = {
   init: function(options) {
     app.options = options || {};
 
-    var commonWaterFall = [
-      app.initGit, //git init
-
-      app.updateGitignore, //update .gitignore file
-      
-      app.addProjectDefaultFiles, //add default files to project
-      
-      // app.initNpm, //npm init
-      
-      // app.addNpmDependencies, //init project npm dependencies
-      
-      app.initFinished //init finished
-    ];
-
-    var normalWaterFall = [
+    var waterFall = [
       app.initGit, //git init
 
       app.updateGitignore, //update .gitignore file
@@ -149,12 +169,13 @@ module.exports = {
       app.initFinished //init finished
     ];
 
-    var processList = commonWaterFall;
-    if (['normal', 'node'].indexOf(options.path) > -1) {
-      processList = normalWaterFall;
+    if(options.path === 'vue') {
+      waterFall = [app.createVueApp];
+    } else if(options.path === 'react') {
+      waterFall = [app.createReactApp];
     }
 
-    async.waterfall(processList, function(err, rs) {
+    async.waterfall(waterFall, function(err, rs) {
       if (err) {
         console.log(clc.error(err.message));
         return;
