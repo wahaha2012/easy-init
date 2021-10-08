@@ -57,7 +57,7 @@ function start() {
     type: 'list',
     name: 'architecture',
     message: 'Please select template for your project:',
-    choices: ['webpack', 'nodejs', 'react', 'vue']
+    choices: ['webpack', 'rollup', 'nodejs', 'react', 'vue']
   }]).then(function(answers) {
     require('../src/init-common').init({
       folder: projectFolder,

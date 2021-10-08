@@ -173,6 +173,8 @@ module.exports = {
       waterFall = [app.createVueApp];
     } else if(options.path === 'react') {
       waterFall = [app.createReactApp];
+    } else if(options.path === 'rollup') {
+      waterFall = [app.addProjectDefaultFiles]
     }
 
     async.waterfall(waterFall, function(err, rs) {
