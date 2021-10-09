@@ -1,7 +1,7 @@
-var fs = require('fs');
+var fs = require("fs");
 
 module.exports = {
-  isEmptyDir: function(path) {
+  isEmptyDir: function (path) {
     try {
       var stat = fs.statSync(path);
       // console.log(stat);
@@ -17,5 +17,5 @@ module.exports = {
     }
     var file = fs.readFileSync(path);
     return !file || !file.length;
-  }
+  },
 };

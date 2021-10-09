@@ -1,45 +1,51 @@
 #!/usr/bin/env node
 
 //load modules required
-var clc = require('../src/colors'),
-  inquirer = require('inquirer'),
-  exists = require('fs').existsSync,
-  shelljs = require('shelljs'),
-  path = require('path'),
-  fs = require('fs'),
-  utils = require('../src/utils'),
-  program = require('commander');
+var clc = require("../src/colors"),
+  inquirer = require("inquirer"),
+  exists = require("fs").existsSync,
+  shelljs = require("shelljs"),
+  path = require("path"),
+  fs = require("fs"),
+  utils = require("../src/utils"),
+  program = require("commander");
 
 program
-  .version(require('../package.json').version)
-  .usage('[options] <project-name>')
+  .version(require("../package.json").version)
+  .usage("[options] <project-name>")
   .parse(process.argv);
 
 // console.log(program.args);
 //check project foler
 var projectName = program.args[0],
-  currentPath = !projectName || projectName === '.',
-  projectName = currentPath ? path.relative('./', process.cwd()) : projectName,
-  projectFolder = path.resolve(projectName || '.'),
+  currentPath = !projectName || projectName === ".",
+  projectName = currentPath ? path.relative("./", process.cwd()) : projectName,
+  projectFolder = path.resolve(projectName || "."),
   isEmptyDir = utils.isEmptyDir(projectFolder);
-  // console.log(isEmptyDir,projectFolder);
-  // console.log(projectName, projectFolder);
+// console.log(isEmptyDir,projectFolder);
+// console.log(projectName, projectFolder);
 
 if (exists(projectFolder) && !isEmptyDir) {
-  inquirer.prompt([{
-    type: 'confirm',
-    name: 'pathConfirm',
-    message: currentPath ? clc.warn('Generate project in current directory?') : clc.warn('Target directory exists. Continue?')
-  }]).then(function(answers) {
-    if (answers.pathConfirm) {
-      start();
-    }
-  })
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        name: "pathConfirm",
+        message: currentPath
+          ? clc.warn("Generate project in current directory?")
+          : clc.warn("Target directory exists. Continue?"),
+      },
+    ])
+    .then(function (answers) {
+      if (answers.pathConfirm) {
+        start();
+      }
+    });
 } else {
-  try{
+  try {
     fs.mkdirSync(projectFolder);
-  }catch(err){
-    console.log(clc.notice(err.path+' '+err.code));
+  } catch (err) {
+    console.log(clc.notice(err.path + " " + err.code));
   }
   start();
 }
@@ -48,21 +54,29 @@ shelljs.cd(projectFolder);
 
 function start() {
   //check user environment
-  if (!shelljs.which('git')) {
-    console.log(clc.error('Please install git commond tools first.\nDownload link: http://git-scm.com/download/'));
+  if (!shelljs.which("git")) {
+    console.log(
+      clc.error(
+        "Please install git commond tools first.\nDownload link: http://git-scm.com/download/"
+      )
+    );
     process.exit();
   }
 
-  inquirer.prompt([{
-    type: 'list',
-    name: 'architecture',
-    message: 'Please select template for your project:',
-    choices: ['webpack', 'rollup', 'nodejs', 'react', 'vue']
-  }]).then(function(answers) {
-    require('../src/init-common').init({
-      folder: projectFolder,
-      path: answers.architecture,
-      projectName: projectName
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "architecture",
+        message: "Please select template for your project:",
+        choices: ["webpack", "rollup", "nodejs", "react", "vue"],
+      },
+    ])
+    .then(function (answers) {
+      require("../src/init-common").init({
+        folder: projectFolder,
+        path: answers.architecture,
+        projectName: projectName,
+      });
     });
-  });
 }
