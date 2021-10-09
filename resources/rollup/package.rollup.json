@@ -4,6 +4,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",

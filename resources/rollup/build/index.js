@@ -2,6 +2,7 @@ const path = require("path");
 const glob = require("glob");
 const rollup = require("rollup");
 const buble = require("@rollup/plugin-buble");
+const commonjs = require("@rollup/plugin-commonjs");
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const fs = require("fs-extra");
 
@@ -35,7 +36,7 @@ const rollupConfig = glob.sync("src/**/*.js").map((inputFile) => {
       format: "umd",
       // sourcemap: true,
     },
-    plugins: [nodeResolve(), buble()],
+    plugins: [nodeResolve(), buble(), commonjs()],
   };
 });
 
