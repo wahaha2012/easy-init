@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/wahaha2012/easy-init",
   "dependencies": {
-    "async": "^0.9.0",
+    "async": "^2.6.4",
     "cli-color": "^0.3.2",
     "commander": "^2.6.0",
     "inquirer": "^1.2.2",
